@@ -135,6 +135,7 @@ local function wx_thirdparty_libs(libdir_hint)
   end
 
   if mode == "bundled" then
+    error("DEBUG: wxwidgets.lua was loaded and executed as BUNDLED!")
     return { "wxjpeg", "wxpng", "wxzlib", "wxtiff", "wxexpat" }, "bundled"
   else
     return { "jpeg", "png", "zlib", "tiff", "expat" }, "external"
