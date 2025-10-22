@@ -48,7 +48,7 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib -l$(wxMonolithicLibName) -ljpeg$(wxSuffixDebug) -lpng$(wxSuffixDebug) -lzlib$(wxSuffixDebug) -ltiff$(wxSuffixDebug) -lexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
 LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
@@ -61,7 +61,7 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LIBS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib -l$(wxMonolithicLibName) -ljpeg$(wxSuffixDebug) -lpng$(wxSuffixDebug) -lzlib$(wxSuffixDebug) -ltiff$(wxSuffixDebug) -lexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
 LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
@@ -74,7 +74,7 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib -l$(wxMonolithicLibName) -ljpeg$(wxSuffixDebug) -lpng$(wxSuffixDebug) -lzlib$(wxSuffixDebug) -ltiff$(wxSuffixDebug) -lexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
 LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
@@ -87,7 +87,7 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LIBS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib -l$(wxMonolithicLibName) -ljpeg$(wxSuffixDebug) -lpng$(wxSuffixDebug) -lzlib$(wxSuffixDebug) -ltiff$(wxSuffixDebug) -lexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
 LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
