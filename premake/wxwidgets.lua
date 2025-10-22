@@ -39,6 +39,24 @@ newoption {
   description = "Monolithic wxWidgets build"
 }
 
+newoption {
+  trigger     = "wx_thirdparty",
+  value       = "mode",
+  description = "How to link wx third-party libs: auto (default), bundled, external",
+  allowed     = {
+    { "auto",     "Detect from libdir / Conan" },
+    { "bundled",  "Use wx-prefixed libs (wxexpat, wxjpeg, ...)" },
+    { "external", "Use system/Conan libs (expat, jpeg, ...)" }
+  }
+}
+
+-- Optional: help auto-detection by pointing at the wx lib directory
+newoption {
+  trigger     = "wx_libdir",
+  value       = "path",
+  description = "Folder with wx libs for auto-detect (e.g. C:/wx/lib/vc_x64_lib)"
+}
+
 if not _OPTIONS["wx_ver"] then
    _OPTIONS["wx_ver"] = "3.2"
 end
@@ -93,6 +111,35 @@ premake.api.register {
   kind = "boolean",
   default = false
 }
+
+-- Decide which third-party names to link
+local function wx_thirdparty_libs(libdir_hint)
+  local mode = _OPTIONS["wx_thirdparty"] or "auto"
+
+  -- Cheap Conan heuristic: if Conan env is present, prefer external
+  local is_conan = os.getenv("CONAN_HOME") or os.getenv("CONAN_USER_HOME") or os.getenv("CONAN_PROFILE_HOST")
+
+  if mode == "auto" then
+    if is_conan and not libdir_hint then
+      mode = "external"
+    else
+      -- Only works if we have a real path (not "$(…)" variables)
+      local d = libdir_hint or ""
+      local has_wxexpat =
+           os.isfile(path.join(d, "wxexpat.lib"))
+        or os.isfile(path.join(d, "libwxexpat.a"))
+        or os.isfile(path.join(d, "libwxexpat.dylib"))
+        or os.isfile(path.join(d, "libwxexpat.so"))
+      mode = has_wxexpat and "bundled" or "external"
+    end
+  end
+
+  if mode == "bundled" then
+    return { "wxjpeg", "wxpng", "wxzlib", "wxtiff", "wxexpat" }, "bundled"
+  else
+    return { "jpeg", "png", "zlib", "tiff", "expat" }, "external"
+  end
+end
 
 local function wxPropertySheets(prj)
 --  if premake.wxProject ~= nil and premake.wxProject then 
@@ -229,6 +276,9 @@ function wx_config_Private(wxRoot, wxDebug, wxHost, wxVersion, wxStatic, wxUnico
     -- function to compensate lack of wx-config program on windows
     -- but wait, look at http://sites.google.com/site/wxconfig/ for one !
     function wx_config_for_windows(wxWindowsCompiler)
+        local supportLibDir = _OPTIONS["wx_libdir"]  -- optional for auto-detect
+        local thirdparty, tp_mode = wx_thirdparty_libs(supportLibDir)
+
         local wxBuildType = ""  -- buildtype is one of "", "u", "d" or "ud"
         local wxDebugSuffix = "" -- debug buildsuffix is for support libraries only
         if wxUnicode ~= "" then wxBuildType = wxBuildType .. "u" end
@@ -301,8 +351,10 @@ function wx_config_Private(wxRoot, wxDebug, wxHost, wxVersion, wxStatic, wxUnico
             links ( "$(wxMonolithicLibName)" )
             if (wxStatic == "yes") then
               -- link with support libraries
-              for i, lib in ipairs({"wxjpeg", "wxpng", "wxzlib", "wxtiff",  "wxexpat"}) do
-                links { lib.."$(wxSuffixDebug)" }
+              if tp_mode == "bundled" then
+                for i, lib in ipairs(thirdparty) do
+                  links { lib.."$(wxSuffixDebug)" }
+                end
               end
               links { "wxregex" .. "$(wxSuffix)" }
             end
@@ -316,12 +368,17 @@ function wx_config_Private(wxRoot, wxDebug, wxHost, wxVersion, wxStatic, wxUnico
             end
             links { "$(wxBaseLibNamePrefix)" } -- base lib
             -- link with support libraries
-            for i, lib in ipairs({"wxjpeg", "wxpng", "wxzlib", "wxtiff", "wxexpat"}) do
-              links { lib.."$(wxSuffixDebug)" }
+            if tp_mode == "bundled" then
+              for i, lib in ipairs(thirdparty) do
+                links { lib.."$(wxSuffixDebug)" }
+              end
             end
             links { "wxregex" .. "$(wxSuffix)" }
           end
           links { "kernel32", "user32", "gdi32", "comdlg32", "winspool", "winmm", "shell32", "shlwapi", "comctl32", "ole32", "oleaut32", "uuid", "rpcrt4", "advapi32", "version", "wsock32", "wininet", "oleacc", "uxtheme" }
+          if tp_mode == "bundled" then
+            links(thirdparty)
+          end
         elseif (not is_msvc) then
           libVersion = string.gsub(wxVersion, '%.', '') -- remove dot from version
           links { "wxbase"..libVersion..wxBuildType } -- base lib
@@ -333,11 +390,14 @@ function wx_config_Private(wxRoot, wxDebug, wxHost, wxVersion, wxStatic, wxUnico
               links { libPrefix..libVersion..wxBuildType..'_'..lib}
           end
           -- link with support libraries
-          for i, lib in ipairs({"wxjpeg", "wxpng", "wxzlib", "wxtiff", "wxexpat"}) do
+          for i, lib in ipairs(thirdparty) do
               links { lib..wxDebugSuffix }
           end
           links { "wxregex" .. wxBuildType }
           links { "kernel32", "user32", "gdi32", "comdlg32", "winspool", "winmm", "shell32", "shlwapi", "comctl32", "ole32", "oleaut32", "uuid", "rpcrt4", "advapi32", "version", "wsock32", "wininet", "oleacc", "uxtheme" }
+          if tp_mode == "bundled" then
+            links(thirdparty)
+          end
         end
     end
  
